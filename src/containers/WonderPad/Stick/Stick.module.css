@@ -1,0 +1,8 @@
+.stickDiv {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    border: 5px solid black;
+}
