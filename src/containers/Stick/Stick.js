@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import nipplejs from 'nipplejs';
 
 import classes from './Stick.module.css';
-import PropTypes from 'prop-types';
+
+import * as actionCreators from '../../store/actions/inputData';
 
 class Stick extends Component {
 
@@ -28,9 +30,16 @@ class Stick extends Component {
         };
 
         this.joystick = nipplejs.create(options);
-        this.joystick.on('move', (evt, data) => this.props.onMove(evt, data));
-        this.joystick.on('end', (evt, data) => this.props.onRelease(evt, data));
+        this.joystick.on('move', (evt, data) => this.onMove(data));
+        this.joystick.on('end', (evt, data) => this.props.onRelease(data));
     }
+
+    onMove = (data) => {
+        const dir = data.angle.degree;
+        const mag = data.force;
+        this.props.onMove(dir, mag);
+    };
+
 
     render(){
         return (
@@ -39,4 +48,11 @@ class Stick extends Component {
     }
 }
 
-export default Stick;
+const mapDispatchToProps = dispatch => (
+    {
+        onMove: (dir, mag) => dispatch(actionCreators.stickMove(dir, mag)),
+        onRelease: () => dispatch(actionCreators.stickRelease()) 
+    }
+)
+
+export default connect(null, mapDispatchToProps)(Stick);

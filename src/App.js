@@ -1,5 +1,5 @@
 import React from 'react';
-import WonderPad from './containers/WonderPad/WonderPad';
+import WonderPad from './components/WonderPad/WonderPad';
 
 function App() {
   return (
