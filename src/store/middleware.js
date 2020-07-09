@@ -3,7 +3,6 @@ import * as actionTypes from './actions/actionTypes';
 
 export const socketSend = store => next => action => {
     let result = next(action)
-
     // const teststr = '98eb7b0a-d58c-4bc5-8d73-401887744e09'
     
     // console.log(teststr.length);
@@ -23,6 +22,7 @@ export const socketSend = store => next => action => {
         view[4] = nextState.aPressed ? 1 : 0;
         view[5] = nextState.bPressed ? 1 : 0;
         // console.log(buffer[0]);
+        console.log(new Date());
         ws.send(view);
     }
     return result;
