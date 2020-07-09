@@ -22,7 +22,7 @@ export const socketSend = store => next => action => {
         view[4] = nextState.aPressed ? 1 : 0;
         view[5] = nextState.bPressed ? 1 : 0;
         // console.log(buffer[0]);
-        console.log(new Date());
+        console.log(new Date().getMilliseconds());
         ws.send(view);
     }
     return result;
