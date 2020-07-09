@@ -14,7 +14,7 @@ class Buttons extends Component{
         const touchOffsetY = window.innerHeight - div.offsetHeight;
         let touchX = (touch.clientX - touchOffsetX) / div.offsetWidth;
         let touchY = (touch.clientY - touchOffsetY) / div.offsetHeight;
-        touchX += (touchX - .5) * (this.props.dividerSlope - 1);
+        touchX += (touchX - .5);
         const touchedA = (touchX + (1-touchY)) > 1;
         
         if(touchedA){
@@ -25,22 +25,25 @@ class Buttons extends Component{
     }
 
     render() {
-
-        const buttonClass = [classes.ButtonsDiv]
-        if(this.props.aPressed){
-            buttonClass.push(classes.ATouched);
-        }
-
-        if(this.props.bPressed){
-            buttonClass.push(classes.BTouched);
-        }
+        const AColor = this.props.aPressed ? classes.ATouched : classes.ADefault;
+        const BColor = this.props.bPressed ? classes.BTouched : classes.BDefault;
+        const AButtonClass = [classes.AButton, AColor]
+        const BButtonClass = [classes.BButton, BColor]
+   
 
         return (
-            <div 
-                onClick={e => e.preventDefault()}
-                className={buttonClass.join(' ')}
-                onTouchEnd={this.props.releaseButton}
-                onTouchStart={(e) => {this.onTouchStart(e)}}/>
+            <React.Fragment>
+                <div 
+                    onClick={e => e.preventDefault()}
+                    className={classes.ButtonsDiv}
+                    onTouchEnd={this.props.releaseButton}
+                    onTouchStart={(e) => {this.onTouchStart(e)}}>                   
+                    
+                    <div className={AButtonClass.join(' ')}/>
+                    <div className={BButtonClass.join(' ')}/>
+                    
+                </div>
+            </React.Fragment>
         )
     }
 }
