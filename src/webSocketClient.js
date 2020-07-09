@@ -1,5 +1,5 @@
-const ENDPOINT = 'ws://wonderpad-server.herokuapp.com/:80';
-const MOBILE_ENDPOINT = 'ws://192.168.1.2:4000';
+const ENDPOINT = 'wss://wonderpad-server.herokuapp.com/:80';
+const MOBILE_ENDPOINT = 'wss://192.168.1.2:4000';
 
 const ws = new WebSocket(ENDPOINT);
 ws.binaryType = 'arraybuffer';
