@@ -1,9 +1,9 @@
 import React from 'react';
-import WonderPad from './components/WonderPad/WonderPad';
+import Layout from './containers/Layout/Layout';
 
 function App() {
   return (
-    <WonderPad/>
+    <Layout/>
   );
 }
 

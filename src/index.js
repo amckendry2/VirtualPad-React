@@ -1,18 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import { socketSend } from './store/middleware'
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import thunk from 'redux-thunk';
+
+import { socketMiddleware } from './websockets/middleware'
 
 import './index.css';
 import App from './App';
-import reducer from './store/reducers/inputData';
+import inputReducer from './store/reducers/input';
+import connectionReducer from './store/reducers/connection';
 import * as serviceWorker from './serviceWorker';
 
+const rootReducer = combineReducers({
+  input: inputReducer,
+  connection: connectionReducer
+});
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
-  reducer,
-  applyMiddleware(socketSend)
-);
+  rootReducer,
+  composeEnhancers(
+    applyMiddleware(thunk, socketMiddleware)
+));
 
 ReactDOM.render(
   <React.StrictMode>

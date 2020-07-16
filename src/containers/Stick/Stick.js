@@ -4,7 +4,7 @@ import nipplejs from 'nipplejs';
 
 import classes from './Stick.module.css';
 
-import * as actionCreators from '../../store/actions/inputData';
+import * as actionCreators from '../../store/actions/index';
 
 class Stick extends Component {
 

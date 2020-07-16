@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
 import classes from './Buttons.module.css';
-import * as actionCreators from '../../store/actions/inputData';
+import * as actionCreators from '../../store/actions/index';
 
 class Buttons extends Component{
     
@@ -50,8 +50,8 @@ class Buttons extends Component{
 
 const mapStateToProps = state => (
     {
-        aPressed: state.aPressed,
-        bPressed: state.bPressed
+        aPressed: state.input.aPressed,
+        bPressed: state.input.bPressed
     }
 )
 
