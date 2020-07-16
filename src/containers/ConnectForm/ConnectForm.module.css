@@ -1,0 +1,33 @@
+.ConnectForm {
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.Input {
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    font: inherit;
+    padding: 6px 10px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.Invalid {
+    border: 3px solid red;
+}
+
+
+.Valid {
+    border: 3px solid green;
+}
+
+.Button {
+    margin-left: 50%;
+}
