@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes';
-import { unityConnectStart, unityConnectSucceeded, unityConnectFailed, wsError } from '../actions/connection';
 
 const initialState = {
     // unityConnection: false,
@@ -14,7 +13,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REQUEST_START: return requestStart(state); 
         case actionTypes.REQUEST_FAILED: return requestFailed(state, action.error);
         case actionTypes.WS_CONNECTED: return wsConnected(state);
-        case actionTypes.WS_ERROR: return wsError(state, error);
+        case actionTypes.WS_ERROR: return wsError(state, action.error);
         case actionTypes.WS_DISCONNECTED: return wsDisconnected(state);
         // case actionTypes.UNITY_CONNECT_SUCCEEDED: return unityConnectSucceeded(state);
         // case actionTypes.UNITY_CONNECT_FAILED: return unityConnectFailed(state, error);
