@@ -5,12 +5,13 @@ const initialState = {
     serverConnection: false,
     connecting: false,
     error: null,
-    playerNum: 0
+    playerNum: null
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
         case actionTypes.REQUEST_START: return requestStart(state); 
+        case actionTypes.REQUEST_SUCEEDED: return requestSucceeded(state, action.playerNum);
         case actionTypes.REQUEST_FAILED: return requestFailed(state, action.error);
         case actionTypes.WS_CONNECTED: return wsConnected(state);
         case actionTypes.WS_ERROR: return wsError(state, action.error);
@@ -26,6 +27,11 @@ const requestStart = state => ({
     connecting: true,
     error: null
 });
+
+const requestSucceeded = (state, playerNum) => ({
+    ...state,
+    playerNum: playerNum
+})
 
 const requestFailed = (state, error) => ({
     ...state,

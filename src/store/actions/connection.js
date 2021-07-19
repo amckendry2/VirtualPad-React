@@ -7,6 +7,13 @@ export const requestStart = () => {
     };
 };
 
+export const requestSucceeded = playerNum => {
+    return {
+        type: actionTypes.REQUEST_SUCEEDED,
+        playerNum: playerNum
+    }
+}
+
 export const requestFailed = (err) => {
     return {
         type: actionTypes.REQUEST_FAILED,
@@ -14,17 +21,20 @@ export const requestFailed = (err) => {
     };
 };
 
-export const requestValidation = (gameCode) => {
+export const requestConnection = (gameCode) => {
     return dispatch => {
         dispatch(requestStart());
-        const url = 'http://127.0.0.1:4000/validation-request';
+        const url = 'http://10.84.1.128:4000/connection-request';
         // const mobileURL = 'http://10.84.1.128:4000/connection-request';
-        axios.post(url, gameCode)
+        axios.post(url, {gameCode: gameCode})
             .then ( res => {
-                console.log('connection request validated');
-                // dispatch(requestSucceeded());
-                dispatch(wsConnect(res.data));
-                // dispatch(unityConnectRequest(gameCode));
+                const data = res.data;
+                if(data.type === 'success'){
+                    dispatch(requestSucceeded(data.playerNum));
+                    dispatch(wsConnect(data.url, gameCode));
+                } else {
+                    dispatch(requestFailed(data.error));
+                }
             })
             .catch ( err => {
                 console.log(err);
@@ -33,9 +43,10 @@ export const requestValidation = (gameCode) => {
     };
 };
 
-export const wsConnect = host => ({ 
-    type: actionTypes.WS_CONNECT, 
-    host: host
+export const wsConnect = (host, gameCode) => ({
+    type: actionTypes.WS_CONNECT,
+    host: host,
+    gameCode: gameCode
 });
 
 export const wsConnected = () => ({
@@ -43,8 +54,8 @@ export const wsConnected = () => ({
 });
 
 export const wsError = (error) => ({
- type: actionTypes.WS_ERROR,
- error: error
+    type: actionTypes.WS_ERROR,
+    error: error
 })
 
 export const wsDisconnect = error => ({

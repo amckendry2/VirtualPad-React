@@ -13,7 +13,7 @@ class ConnectForm extends Component {
     }
 
     checkValidity = (value) => {
-        return /[A-Z0-9]{5,5}/.test(value);
+        return /[A-Z0-9]{4,4}/.test(value);
     }
 
     inputChangedHandler = (event) => {
@@ -41,11 +41,16 @@ class ConnectForm extends Component {
             inputClass.push(this.state.valid ? classes.Valid : classes.Invalid);
         }
 
+        let error = null;
+        if (this.props.error !== null){
+            error = (<p>{this.props.error}</p>)
+        }
+
         let connectForm = (
             <div>
                 <input
                     type='text'
-                    maxLength='5'
+                    maxLength='4'
                     autoComplete='off'
                     className={inputClass.join(' ')}
                     value = {this.state.inputValue}
@@ -56,6 +61,7 @@ class ConnectForm extends Component {
                     className={classes.Button}
                     disabled={!this.state.valid}
                 >CONNECT</button>
+                {error}
             </div>
         );
 
@@ -66,11 +72,12 @@ class ConnectForm extends Component {
 }
 
 const mapStateToProps = state => ({
-    connecting: state.connection.connecting
+    connecting: state.connection.connecting,
+    error: state.connection.error
 })
 
 const mapDispatchToProps = dispatch => ({
-    requestValidation: gameCode => dispatch(actions.requestValidation(gameCode))
+    requestValidation: gameCode => dispatch(actions.requestConnection(gameCode))
 });
 
 

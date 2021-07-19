@@ -9,7 +9,7 @@ class Layout extends Component{
     
     render(){
 
-        const showModal = !this.props.unityConnection;
+        const showModal = !this.props.serverConnection;
         
         return (
             <React.Fragment>
@@ -23,7 +23,7 @@ class Layout extends Component{
 }
 
 const mapStateToProps = state => ({
-    unityConnection: state.connection.unityConnection,
+    serverConnection: state.connection.serverConnection,
     connecting: state.connection.connecting
 });
 

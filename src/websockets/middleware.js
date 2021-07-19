@@ -1,12 +1,19 @@
-import * as binaryParsing from './binaryParsing';
+// import * as binaryParsing from './binaryParsing';
 import * as actionCreators from '../store/actions/connection';
 import * as actionTypes from '../store/actions/actionTypes';
 
 export const socketMiddleware = (() => {
     let socket = null;
-    const onOpen = store => () => {
+    const onOpen = (store, gameCode) => () => {
         console.log('websocket open');
-        store.dispatch(actionCreators.wsConnected());
+        const state = store.getState();
+        const msgObj = {
+            gameCode: gameCode,
+            playerNum: state.connection.playerNum
+        };
+        const json = JSON.stringify(msgObj);
+        socket.send(json);
+        store.dispatch(actionCreators.wsConnected(gameCode));
     };
     const onClose = store => () => {
         store.dispatch(actionCreators.wsDisconnected());
@@ -23,7 +30,7 @@ export const socketMiddleware = (() => {
                     socket.close();
                 }
                 socket = new WebSocket(action.host);
-                socket.onopen = onOpen(store);
+                socket.onopen = onOpen(store, action.gameCode);
                 socket.onclose = onClose(store);    
                 socket.onerror = onError(store);
                 break;
@@ -38,11 +45,17 @@ export const socketMiddleware = (() => {
                 const result =  next(action);
                 const nextState = {...store.getState()};
                 const serverConnection = nextState.connection.serverConnection;
-                const unityConnection = nextState.connection.unityConnection;
-                if(action.sendInputState && unityConnection && serverConnection){
+                if(action.sendInputState && serverConnection){
                     console.log("sending input data");
-                    const inputStateArrayBuffer = binaryParsing.inputStateToBinary(nextState);
-                    socket.send(inputStateArrayBuffer); 
+                    const buffer = new ArrayBuffer(12);
+                    const view = new Uint16Array(buffer);
+                    view[0] = nextState.connection.playerNum; 
+                    view[1] = parseInt(nextState.input.stickDir);
+                    view[2] = parseInt(nextState.input.stickMag);
+                    view[3] = nextState.input.stickActive ? 1 : 0;
+                    view[4] = nextState.input.aPressed ? 1 : 0;
+                    view[5] = nextState.input.bPressed ? 1 : 0;
+                    socket.send(view); 
                 }
                 return result;
         }

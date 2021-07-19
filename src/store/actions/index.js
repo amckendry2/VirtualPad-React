@@ -1,2 +1,2 @@
 export {stickMove, stickRelease, aDown, bDown, buttonRelease} from './input';
-export { requestValidation } from './connection';
+export { requestConnection } from './connection';
