@@ -89,7 +89,7 @@ wss.on('connection', (ws, _) => {
             if(gameData.containsGame(ws.game)){
                 gameData.saveInput(msg, ws.game);
             } else {
-                console.log("Got input for nonexistant game");
+                console.log("Got input for nonexistent game");
                 ws.close();
             }
         });
